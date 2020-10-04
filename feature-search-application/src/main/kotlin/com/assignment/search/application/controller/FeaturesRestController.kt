@@ -1,9 +1,11 @@
 package com.assignment.search.application.controller
 
+import com.assignment.search.application.domain.ResultFeaturesData
 import com.assignment.search.application.service.FeaturesService
 import com.fasterxml.jackson.module.kotlin.MissingKotlinParameterException
 import org.apache.commons.io.IOUtils
 import org.springframework.http.*
+import org.springframework.http.MediaType.APPLICATION_JSON_VALUE
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.context.request.WebRequest
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler
@@ -15,8 +17,17 @@ import java.time.LocalDate
 @RestController
 @RequestMapping(value = ["/features"])
 class FeaturesRestController(val featureService: FeaturesService) {
-    @GetMapping(produces = [MediaType.APPLICATION_JSON_VALUE])
+    @GetMapping(produces = [APPLICATION_JSON_VALUE])
     fun features() = featureService.getAll()
+
+    @GetMapping("{featureId}", produces = [APPLICATION_JSON_VALUE])
+    fun features(@PathVariable("featureId") featureId: String): ResultFeaturesData? {
+        val result = featureService.getOne(featureId).firstOrNull()
+        if (result == null) {
+            throw FeaturesNotFoundException("Feature Not Found! FeatureId: " + featureId);
+        }
+        return result
+    }
 
 }
 

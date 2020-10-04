@@ -18,4 +18,10 @@ class FeaturesService {
         return FeaturesComponent.getFeaturesRawData()
                 .flatMap { e -> e.features.map { r -> mapToResultSearchData(r) } }.sortedBy { e -> e.id }
     }
+
+    fun getOne(featureId: String): List<ResultFeaturesData> {
+        return FeaturesComponent.getFeaturesRawData()
+                .flatMap { e -> e.features.map { r -> mapToResultSearchData(r) } }
+                .filter { r -> r.id.equals(featureId) }
+    }
 }
