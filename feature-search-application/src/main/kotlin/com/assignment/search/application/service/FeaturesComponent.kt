@@ -1,6 +1,6 @@
 package com.assignment.search.application.service
 
-import com.assignment.search.application.model.SearchData
+import com.assignment.search.application.domain.SearchData
 import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
