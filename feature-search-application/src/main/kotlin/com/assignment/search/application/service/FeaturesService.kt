@@ -16,12 +16,22 @@ class FeaturesService {
 
     fun getAll(): List<ResultFeaturesData> {
         return FeaturesComponent.getFeaturesRawData()
-                .flatMap { e -> e.features.map { r -> mapToResultSearchData(r) } }.sortedBy { e -> e.id }
+                .flatMap { e -> e.features.map { r -> mapToResultSearchData(r) } }
+                .sortedBy { e -> e.id }
     }
 
-    fun getOne(featureId: String): List<ResultFeaturesData> {
+    fun getOne(featureId: String): ResultFeaturesData? {
         return FeaturesComponent.getFeaturesRawData()
                 .flatMap { e -> e.features.map { r -> mapToResultSearchData(r) } }
                 .filter { r -> r.id.equals(featureId) }
+                .firstOrNull()
+    }
+
+
+    fun getQuicklook(featureId: String): String? {
+        return FeaturesComponent.getFeaturesRawData()
+                .flatMap { e -> e.features }
+                .filter { r -> r.properties.id.equals(featureId) }
+                .map { r -> r.properties.quicklook }.firstOrNull()
     }
 }
