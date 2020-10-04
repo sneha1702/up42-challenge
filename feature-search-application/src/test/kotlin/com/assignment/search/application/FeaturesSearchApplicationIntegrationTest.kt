@@ -32,4 +32,19 @@ class IntegrationTests(@Autowired val restTemplate: TestRestTemplate) {
     }
 
 
+    @Test
+    fun `Assert getOne features endpoint`() {
+        val responseEntity = restTemplate.exchange("/features/08a190bf-8c7e-4e94-a22c-7f3be11f642c", HttpMethod.GET, null,
+                object : ParameterizedTypeReference<ResultFeaturesData>() {})
+        assertThat(responseEntity.statusCode).isEqualTo(HttpStatus.OK)
+        val result: ResultFeaturesData = responseEntity.body!!
+        assertThat(result.id).isEqualTo("08a190bf-8c7e-4e94-a22c-7f3be11f642c")
+        assertThat(result.beginViewingDate).isEqualTo("1555044772083")
+        assertThat(result.endViewingDate).isEqualTo("1555044797082")
+        assertThat(result.timestamp).isEqualTo("1555044772083")
+        assertThat(result.missionName).isEqualTo("Sentinel-1A")
+
+    }
+
+
 }
