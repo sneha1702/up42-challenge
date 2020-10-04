@@ -4,8 +4,10 @@ import com.assignment.search.application.domain.SearchData
 import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
+import org.springframework.stereotype.Component
 import java.util.*
 
+@Component
 class FeaturesComponent {
     companion object {
         var rawData: List<SearchData> = Collections.emptyList()

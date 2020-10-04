@@ -2,7 +2,9 @@ package com.assignment.search.application.service
 
 import com.assignment.search.application.domain.FeaturesData
 import com.assignment.search.application.domain.ResultFeaturesData
+import org.springframework.stereotype.Service
 
+@Service
 class FeaturesService {
     fun mapToResultSearchData(r: FeaturesData) =
             ResultFeaturesData(id = r.properties.id,
@@ -14,6 +16,6 @@ class FeaturesService {
 
     fun getAll(): List<ResultFeaturesData> {
         return FeaturesComponent.getFeaturesRawData()
-                .flatMap { e -> e.features.map { r -> mapToResultSearchData(r) } }
+                .flatMap { e -> e.features.map { r -> mapToResultSearchData(r) } }.sortedBy { e -> e.id }
     }
 }
