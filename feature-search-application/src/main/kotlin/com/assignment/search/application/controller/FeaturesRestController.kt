@@ -25,7 +25,7 @@ class ControllerAdviceRequestError : ResponseEntityExceptionHandler() {
     @ExceptionHandler(value = [(FeaturesNotFoundException::class)])
     fun handleUserAlreadyExists(ex: FeaturesNotFoundException, request: WebRequest): ResponseEntity<ErrorsDetails> {
         val errorDetails = ErrorsDetails(LocalDate.now(),
-                "Validation Failed",
+                "Feature Not Found!",
                 ex.message!!
         )
         return ResponseEntity(errorDetails, HttpStatus.BAD_REQUEST)
