@@ -24,7 +24,7 @@ class FeaturesRestController(val featureService: FeaturesService) {
     fun features(@PathVariable("featureId") featureId: String): ResultFeaturesData? {
         val result = featureService.getOne(featureId).firstOrNull()
         if (result == null) {
-            throw FeaturesNotFoundException("Feature Not Found! FeatureId: " + featureId);
+            throw FeaturesNotFoundException("FeatureId: " + featureId);
         }
         return result
     }
@@ -34,12 +34,12 @@ class FeaturesRestController(val featureService: FeaturesService) {
 @ControllerAdvice
 class ControllerAdviceRequestError : ResponseEntityExceptionHandler() {
     @ExceptionHandler(value = [(FeaturesNotFoundException::class)])
-    fun handleUserAlreadyExists(ex: FeaturesNotFoundException, request: WebRequest): ResponseEntity<ErrorsDetails> {
+    fun handlFeaturesNotFound(ex: FeaturesNotFoundException, request: WebRequest): ResponseEntity<ErrorsDetails> {
         val errorDetails = ErrorsDetails(LocalDate.now(),
                 "Feature Not Found!",
                 ex.message!!
         )
-        return ResponseEntity(errorDetails, HttpStatus.BAD_REQUEST)
+        return ResponseEntity(errorDetails, HttpStatus.NOT_FOUND)
     }
 
     @ExceptionHandler(MissingKotlinParameterException::class)
@@ -48,7 +48,7 @@ class ControllerAdviceRequestError : ResponseEntityExceptionHandler() {
         val errorDetails = ErrorsDetails(LocalDate.now(),
                 "Parsing of Json to Java Object Failed!", ex.message!!
         )
-        return ResponseEntity(errorDetails, HttpStatus.BAD_REQUEST)
+        return ResponseEntity(errorDetails, HttpStatus.INTERNAL_SERVER_ERROR)
     }
 }
 

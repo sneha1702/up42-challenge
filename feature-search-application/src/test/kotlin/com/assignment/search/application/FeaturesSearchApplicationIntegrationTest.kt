@@ -1,5 +1,6 @@
 package com.assignment.search.application
 
+import com.assignment.search.application.controller.ErrorsDetails
 import com.assignment.search.application.domain.ResultFeaturesData
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
@@ -9,6 +10,8 @@ import org.springframework.boot.test.web.client.TestRestTemplate
 import org.springframework.core.ParameterizedTypeReference
 import org.springframework.http.HttpMethod
 import org.springframework.http.HttpStatus
+import org.springframework.http.ResponseEntity
+import java.time.LocalDate
 
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -46,5 +49,15 @@ class IntegrationTests(@Autowired val restTemplate: TestRestTemplate) {
 
     }
 
+    @Test
+    fun `Assert getOne features endpoint Exception Handling`() {
+
+        val str = "not-existing-value"
+        val responseEntity: ResponseEntity<ErrorsDetails> = restTemplate.getForEntity<ErrorsDetails>("/features/$str", ErrorsDetails::class.java)
+        assertThat(responseEntity.statusCode).isEqualTo(HttpStatus.NOT_FOUND)
+        assertThat(responseEntity.body).isEqualTo(ErrorsDetails(time = LocalDate.now(), message = "Feature Not " +
+                "Found!", details = "FeatureId: $str"))
+
+    }
 
 }
