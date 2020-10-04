@@ -22,8 +22,7 @@ class FeaturesRestController(val featureService: FeaturesService) {
 
     @GetMapping("{featureId}", produces = [APPLICATION_JSON_VALUE])
     fun features(@PathVariable("featureId") featureId: String): ResultFeaturesData? {
-        val result = featureService.getOne(featureId) ?: throw FeaturesNotFoundException("FeatureId: $featureId")
-        return result
+        return featureService.getOne(featureId) ?: throw FeaturesNotFoundException("FeatureId: $featureId")
     }
 
     @GetMapping(value = ["{featureId}/quicklook"])
@@ -35,9 +34,9 @@ class FeaturesRestController(val featureService: FeaturesService) {
             val targetStream: InputStream = IOUtils.toInputStream(quicklookData, StandardCharsets.UTF_8)
             val pngBytes = IOUtils.toByteArray(targetStream)
             val headers = HttpHeaders().also {
-                it.setContentType(MediaType.IMAGE_PNG)
-                it.setContentLength(quicklookData.length.toLong())
-                it.setCacheControl(CacheControl.noCache().headerValue)
+                it.contentType = MediaType.IMAGE_PNG
+                it.contentLength = quicklookData.length.toLong()
+                it.cacheControl = CacheControl.noCache().headerValue
             }
 
             return ResponseEntity(pngBytes, headers, HttpStatus.OK)

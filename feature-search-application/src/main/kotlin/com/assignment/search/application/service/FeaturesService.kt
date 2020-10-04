@@ -22,8 +22,9 @@ class FeaturesService {
 
     fun getOne(featureId: String): ResultFeaturesData? {
         return FeaturesComponent.getFeaturesRawData()
-                .flatMap { e -> e.features.map { r -> mapToResultSearchData(r) } }
-                .filter { r -> r.id.equals(featureId) }
+                .flatMap { e -> e.features }
+                .filter { r -> r.properties.id == featureId }
+                .map { r -> mapToResultSearchData(r) }
                 .firstOrNull()
     }
 
@@ -31,7 +32,8 @@ class FeaturesService {
     fun getQuicklook(featureId: String): String? {
         return FeaturesComponent.getFeaturesRawData()
                 .flatMap { e -> e.features }
-                .filter { r -> r.properties.id.equals(featureId) }
-                .map { r -> r.properties.quicklook }.firstOrNull()
+                .filter { r -> r.properties.id == featureId }
+                .map { r -> r.properties.quicklook }
+                .firstOrNull()
     }
 }
