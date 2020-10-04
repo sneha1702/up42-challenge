@@ -23,11 +23,11 @@ class IntegrationTests(@Autowired val restTemplate: TestRestTemplate) {
         val result: List<ResultFeaturesData> = responseEntity.body!!
         assertThat(result.size).isNotEqualTo(0)
         val firstData = result.stream().findFirst().get()
-        assertThat(firstData.id).isEqualTo("08a190bf-8c7e-4e94-a22c-7f3be11f642c")
-        assertThat(firstData.beginViewingDate).isEqualTo("1555044772083")
-        assertThat(firstData.endViewingDate).isEqualTo("1555044797082")
-        assertThat(firstData.timestamp).isEqualTo("1555044772083")
-        assertThat(firstData.missionName).isEqualTo("Sentinel-1A")
+        assertThat(firstData.id).isEqualTo("39c2f29e-c0f8-4a39-a98b-deed547d6aea")
+        assertThat(firstData.beginViewingDate).isEqualTo("1554831167697")
+        assertThat(firstData.endViewingDate).isEqualTo("1554831202043")
+        assertThat(firstData.timestamp).isEqualTo("1554831167697")
+        assertThat(firstData.missionName).isEqualTo("Sentinel-1B")
 
     }
 
